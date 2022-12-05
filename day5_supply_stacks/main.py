@@ -32,8 +32,12 @@ class State:
         self.stacks = stacks
 
     def apply(self, move: Move):
+        crane = []
         for _ in range(move.count):
-            self.stacks[move.stop].append(self.stacks[move.start].pop())
+            crane.append(self.stacks[move.start].pop())
+        crane.reverse()
+        for item in crane:
+            self.stacks[move.stop].append(item)
 
     def apply_moves(self, moves: list):
         for move in moves:
