@@ -36,6 +36,13 @@ class TestBridge(unittest.TestCase):
             bridge.multiple_steps(direction, count)
         self.assertEqual(bridge.visit_count, 6339)
 
+    def test_run_input_on_long_rope(self):
+        bridge = Bridge(10)
+        for line in read_input():
+            direction, count = Direction(line[0]), int(line[1:])
+            bridge.multiple_steps(direction, count)
+        self.assertEqual(bridge.visit_count, 2541)
+
 
 def read_input():
     with open("./day9_rope_bridge/input.txt") as f:
