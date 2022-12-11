@@ -1,3 +1,7 @@
+new_line = "\n"
+important_steps = [20, 60, 100, 140, 180, 220]
+
+
 class Instruction:
     def __init__(self, line):
         self.line = line
@@ -15,6 +19,7 @@ class CathodeRayTube:
         self.cycle = 1
         self.line = 0
         self.X = 1
+        self.output = ""
         self.instructions = [Instruction(line) for line in instructions.splitlines()]
 
     def step(self, cycles=1):
@@ -22,6 +27,7 @@ class CathodeRayTube:
             self._step()
 
     def _step(self):
+        self._update_output()
         operation = self.instruction
         operation.steps -= 1
         if operation.steps == 0:
@@ -35,8 +41,11 @@ class CathodeRayTube:
     def _instruction(self):
         return self.instructions[self.line]
 
+    def _sprite(self):
+        pos = self.X
+        return [pos - 1, pos, pos + 1]
+
     def sum_of_signal_strengths(self):
-        important_steps = [20, 60, 100, 140, 180, 220]
         strengths = []
         steps = important_steps[-1]
         for _ in range(steps):
@@ -45,5 +54,15 @@ class CathodeRayTube:
                 strengths.append(self.signal_strength)
         return sum(strengths)
 
+    def _update_output(self):
+        pos = self.cycle - 1
+        if pos % 40 in self.sprite:
+            self.output += "#"
+        else:
+            self.output += "."
+        if self.cycle % 40 == 0:
+            self.output += new_line
+
     instruction = property(_instruction)
     signal_strength = property(_signal_strength)
+    sprite = property(_sprite)

@@ -153,6 +153,14 @@ noop
 noop
 noop"""
 
+sample_output = """##..##..##..##..##..##..##..##..##..##..
+###...###...###...###...###...###...###.
+####....####....####....####....####....
+#####.....#####.....#####.....#####.....
+######......######......######......####
+#######.......#######.......#######.....
+"""
+
 
 def read_input():
     with open("./day10_cathode_ray_tube/input.txt") as f:
@@ -198,6 +206,41 @@ class TestCathodeRayTube(unittest.TestCase):
     def testInput(self):
         cathode_ray_tube = CathodeRayTube(read_input())
         self.assertEqual(cathode_ray_tube.sum_of_signal_strengths(), 14360)
+        cathode_ray_tube.step(20)
+        print("\n")
+        print("\n")
+        print(cathode_ray_tube.output)
+
+    def testSampleOutput(self):
+        cathode_ray_tube = CathodeRayTube(sample_input)
+        cathode_ray_tube.step()
+        self.assertEqual(cathode_ray_tube.output, "#")
+        cathode_ray_tube.step()
+        self.assertEqual(cathode_ray_tube.output, "##")
+        cathode_ray_tube.step()
+        self.assertEqual(cathode_ray_tube.output, "##.")
+        cathode_ray_tube.step()
+        self.assertEqual(cathode_ray_tube.output, "##..")
+        cathode_ray_tube.step(4)
+        self.assertEqual(cathode_ray_tube.output, "##..##..")
+        cathode_ray_tube.step()
+        self.assertEqual(cathode_ray_tube.cycle, 10)
+        self.assertEqual(cathode_ray_tube.output, "##..##..#")
+        cathode_ray_tube.step()
+        self.assertEqual(cathode_ray_tube.cycle, 11)
+        self.assertEqual(cathode_ray_tube.output, "##..##..##")
+        cathode_ray_tube.step(11)
+        self.assertEqual(cathode_ray_tube.cycle, 22)
+        self.assertEqual(len(cathode_ray_tube.output), 21)
+        self.assertEqual(cathode_ray_tube.output, "##..##..##..##..##..#")
+        cathode_ray_tube.step(19)
+        self.assertEqual(cathode_ray_tube.cycle, 41)
+        self.assertEqual(
+            cathode_ray_tube.output, "##..##..##..##..##..##..##..##..##..##..\n"
+        )
+        cathode_ray_tube.step(200)
+        self.assertEqual(cathode_ray_tube.cycle, 241)
+        self.assertEqual(cathode_ray_tube.output, sample_output)
 
 
 if __name__ == "__main__":
