@@ -13,18 +13,24 @@ class IntcodeComputer:
 
 def is_in_order(pair):
     left_list, right_list = pair
-    if not left_list:
+    if not left_list and right_list:
         return True
-    if not right_list:
+    if not right_list and left_list:
         return False
+    if not left_list and not right_list:
+        return None
     left, *left_tail = left_list
     right, *right_tail = right_list
     if isinstance(left, int) and isinstance(right, int):
-        if left > right:
+        if left < right:
+            return True
+        elif left > right:
             return False
         return is_in_order([left_tail, right_tail])
     # check if left and right are lists
     if isinstance(left, list) and isinstance(right, list):
+        if is_in_order([left, right]) is None:
+            return is_in_order([left_tail, right_tail])
         return is_in_order([left, right])
     # check if left is a list and right is an int
     if isinstance(left, list) and isinstance(right, int):
